@@ -1,0 +1,4 @@
+2026-03-03 22:17:06 | INFO  | main                 | TestNG                         |  Execution Started 
+2026-03-03 22:17:33 | INFO  | main                 | TestListenerHelper             | Test Successfully Passed: testLoginWithInValidCredentials
+2026-03-03 22:17:37 | INFO  | main                 | TestListenerHelper             | Test Successfully Passed: testLoginWithValidCredentials
+2026-03-03 22:17:38 | INFO  | main                 | TestNG                         |  Execution finished 
