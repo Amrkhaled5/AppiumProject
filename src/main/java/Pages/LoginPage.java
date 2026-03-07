@@ -20,7 +20,7 @@ public class LoginPage {
         PageFactory.initElements(new AppiumFieldDecorator(driver), this);
     }
 
-    private final By UsernameInput = AppiumBy.accessibilityId("test-Username1");
+    private final By UsernameInput = AppiumBy.accessibilityId("test-Username");
     private final By PasswordInput = AppiumBy.accessibilityId("test-Password");
     private final By LoginButton = AppiumBy.accessibilityId("test-LOGIN");
     private final By ErrorMessageBox = AppiumBy.accessibilityId("test-Error message");
