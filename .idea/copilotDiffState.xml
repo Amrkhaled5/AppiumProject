@@ -21,15 +21,6 @@
             </PendingDiffInfo>
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/src/main/resources/config.properties">
-          <value>
-            <PendingDiffInfo>
-              <option name="filePath" value="$PROJECT_DIR$/src/main/resources/config.properties" />
-              <option name="originalContent" value="androidURL=http://0.0.0.0:4723&#10;androidAutomationName=UiAutomator2&#10;androidAppLocation=/apps/Android.SauceLabs.Mobile.Sample.app.2.7.1.apk&#10;" />
-              <option name="updatedContent" value="androidURL=http://127.0.0.1:4723&#10;androidAutomationName=UiAutomator2&#10;androidAppLocation=apps/Android.SauceLabs.Mobile.Sample.app.2.7.1.apk" />
-            </PendingDiffInfo>
-          </value>
-        </entry>
         <entry key="$PROJECT_DIR$/testng.xml">
           <value>
             <PendingDiffInfo>

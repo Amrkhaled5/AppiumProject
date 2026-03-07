@@ -45,7 +45,7 @@
             <version>1.4.14</version>
         </dependency>
 
-        <!-- Log4j2 (API + Core) for LogsManager which uses org.apache.logging.log4j -->
+        <!-- Log4j2 (API + core) for LogsManager which uses org.apache.logging.log4j -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
