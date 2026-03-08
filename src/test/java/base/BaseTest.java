@@ -1,19 +1,17 @@
 package base;
-
 import core.DriverManager;
+import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.ios.IOSDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
 import utils.datamanager.PropertyReader;
-
 import java.io.File;
-import java.io.InputStream;
 import java.net.URL;
-import java.util.Properties;
-
 import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
+
 
 public class BaseTest {
 
@@ -24,23 +22,42 @@ public class BaseTest {
         DesiredCapabilities caps = new DesiredCapabilities();
         caps.setCapability(PLATFORM_NAME, platformName);
         caps.setCapability("appium:deviceName", deviceName);
-
-        // Fetch properties dynamically using PropertyReader
-        caps.setCapability("appium:automationName", PropertyReader.getProperty("androidAutomationName"));
-        caps.setCapability("appium:udid", "emulator-5554");
-        caps.setCapability("appium:newCommandTimeout", 300);
-        caps.setCapability("appium:appWaitActivity", "com.swaglabsmobileapp.MainActivity");
-        caps.setCapability("appium:appWaitDuration", 40000);
-
-        String appPathFromConfig = PropertyReader.getProperty("androidAppLocation");
-        appPathFromConfig = appPathFromConfig.replace("/", File.separator).replace("\\", File.separator);
-        String appUrl = System.getProperty("user.dir") + File.separator + "src" + File.separator + "test"
-                + File.separator + "resources" + File.separator + appPathFromConfig;
-
-        caps.setCapability("appium:app", appUrl);
         URL url = new URL(PropertyReader.getProperty("androidURL"));
-        AndroidDriver driver = new AndroidDriver(url, caps);
+        AppiumDriver driver;
 
+        switch (platformName.toLowerCase()) {
+            case "android":
+                caps.setCapability("appium:automationName", PropertyReader.getProperty("androidAutomationName"));
+                caps.setCapability("appium:udid", "emulator-5554");
+                caps.setCapability("appium:newCommandTimeout", 300);
+                caps.setCapability("appium:appWaitActivity", "com.swaglabsmobileapp.MainActivity");
+                caps.setCapability("appium:appWaitDuration", 40000);
+
+                String appPathFromConfig = PropertyReader.getProperty("androidAppLocation");
+                appPathFromConfig = appPathFromConfig.replace("/", File.separator).replace("\\", File.separator);
+                String appUrl = System.getProperty("user.dir") + File.separator + "src" + File.separator + "test"
+                        + File.separator + "resources" + File.separator + appPathFromConfig;
+
+                caps.setCapability("appium:app", appUrl);
+
+                driver = new AndroidDriver(url, caps);
+                break;
+            case "ios":
+                caps.setCapability("appium:automationName", PropertyReader.getProperty("iosAutomationName"));
+                caps.setCapability("appium:bundleId", PropertyReader.getProperty("iosBundleId"));
+
+                String iosAppPath = PropertyReader.getProperty("iosAppLocation");
+                iosAppPath = iosAppPath.replace("/", File.separator).replace("\\", File.separator);
+                String iosAppUrl = System.getProperty("user.dir") + File.separator + "src" + File.separator + "test"
+                        + File.separator + "resources" + File.separator + iosAppPath;
+
+                caps.setCapability("appium:app", iosAppUrl);
+
+                driver = new IOSDriver(url, caps);
+                break;
+            default:
+                throw new IllegalArgumentException("Unsupported platform: " + platformName);
+        }
         DriverManager.setDriver(driver);
     }
 
