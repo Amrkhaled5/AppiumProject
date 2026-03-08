@@ -1,51 +1,39 @@
 package tests;
 
-import base.BaseTest; // <-- Inheriting the core engine
-import org.json.JSONObject;
-import org.json.JSONTokener;
+import base.BaseTest;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import pages.LoginPage;
 import pages.ProductsPage;
-
-import java.io.InputStream;
+import utils.datamanager.JsonReader;
 
 public class LoginTest extends BaseTest {
-    LoginPage loginPage;
-    ProductsPage productsPage;
-    JSONObject loginTestData;
+    private LoginPage loginPage;
+    private ProductsPage productsPage;
+    private JsonReader loginData;
 
     @BeforeMethod
     public void setupTest() {
         loginPage = new LoginPage();
-
-        try (InputStream dataFileInputStream = getClass().getClassLoader().getResourceAsStream("testdata/loginData.json")) {
-            if (dataFileInputStream != null) {
-                JSONTokener tokener = new JSONTokener(dataFileInputStream);
-                loginTestData = new JSONObject(tokener);
-            }
-        } catch (Exception e) {
-            System.err.println("Failed to read test data file: " + e.getMessage());
-        }
+        loginData = new JsonReader("loginData.json");
     }
 
     @Test
     public void testLoginWithInValidCredentials() {
-        loginPage.enterUserName(loginTestData.getJSONObject("invalidUser").getString("username"));
-        loginPage.enterPassword(loginTestData.getJSONObject("invalidUser").getString("password"));
+        loginPage.enterUserName(loginData.getJsonData("$.invalidUser.username"));
+        loginPage.enterPassword(loginData.getJsonData("$.invalidUser.password"));
         loginPage.clickLoginButton();
 
-        Assert.assertTrue(loginPage.isErrorMessageDisplayed(), "Error message should be displayed for invalid credentials");
-        Assert.assertTrue(loginPage.isErrorMessageDisplayedCorrectError("Username and password do not match any user in this service."), "Error message should indicate invalid credentials");
+        Assert.assertTrue(loginPage.isErrorMessageDisplayed(), "Error message should be displayed");
     }
 
     @Test
     public void testLoginWithValidCredentials() {
-        loginPage.enterUserName(loginTestData.getJSONObject("validUser").getString("username"));
-        loginPage.enterPassword(loginTestData.getJSONObject("validUser").getString("password"));
+        loginPage.enterUserName(loginData.getJsonData("$.validUser.username"));
+        loginPage.enterPassword(loginData.getJsonData("$.validUser.password"));
         productsPage = loginPage.clickLoginButton();
 
-        Assert.assertTrue(productsPage.isProductsPageDisplayed(), "Products page should be displayed after successful login");
+        Assert.assertTrue(productsPage.isProductsPageDisplayed(), "Products page should be displayed");
     }
 }

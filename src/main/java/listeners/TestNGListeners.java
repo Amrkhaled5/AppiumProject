@@ -32,7 +32,6 @@ public class TestNGListeners implements ITestListener, IInvokedMethodListener, I
         LogsManager.error("!!! Test Failed: " + result.getName());
         LogsManager.error("Failure Reason: " + result.getThrowable());
 
-        // Simple, clean driver retrieval using ThreadLocal Manager
         WebDriver driver = DriverManager.getDriver();
 
         if (driver == null) {
