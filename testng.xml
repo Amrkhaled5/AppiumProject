@@ -5,7 +5,11 @@
         <listener class-name="listeners.TestNGListeners"/> </listeners>
     <test name="Test 1">
         <parameter name="platformName" value="Android"/>
-        <parameter name="deviceName" value="emulator-5554"/> <classes>
-        <class name="tests.LoginTest"/> </classes>
+        <parameter name="deviceName" value="emulator-5554"/>
+        <classes>
+        <class name="tests.LoginTest"/>
+        <class name="tests.ProductTests"/>
+        </classes>
     </test>
+
 </suite>
