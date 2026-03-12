@@ -6,24 +6,23 @@ import org.openqa.selenium.By;
 
 public class ProductsPage extends BasePage {
     private final By productTitle = AppiumBy.xpath("//android.widget.TextView[@text=\"PRODUCTS\"]");
-    private final By BackpackProductTitle = AppiumBy.xpath("//android.widget.TextView[@content-desc=\"test-Item title\" and @text=\"Sauce Labs Backpack\"]");
-    private final By BackpackProductPrice = AppiumBy.xpath("//android.widget.TextView[@content-desc=\"test-Price\" and @text=\"$29.99\"]");
+    private final By OnesieTitle = AppiumBy.xpath("//android.widget.TextView[@content-desc=\"test-Item title\" and @text=\"Sauce Labs Onesie\"]");
 
     public boolean isProductsPageDisplayed() {
         return isElementDisplayed(productTitle);
     }
 
     public String getProductTitle() {
-        return getAttribute(BackpackProductTitle, "text");
+        return getAttribute(OnesieTitle, "text");
     }
 
-    public String getProductPrice() {
-        return getAttribute(BackpackProductPrice, "text");
-    }
-
-    public ProductDetailsPage clickOnBackpackProduct() {
-        click(BackpackProductTitle);
+    public ProductDetailsPage clickOnOnesieProduct() {
+        click(OnesieTitle);
         return new ProductDetailsPage();
+    }
+
+    public void scrollToOnesie() {
+        scrollToElement(OnesieTitle);
     }
 
 }

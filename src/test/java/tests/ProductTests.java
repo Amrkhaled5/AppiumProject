@@ -22,12 +22,13 @@ public class ProductTests extends BaseTest {
     }
 
     @Test
-    public void validateProductOnProductsPage() {
+    public void validateProductOnProductsPage() throws InterruptedException {
         loginPage.enterUserName(loginData.getJsonData("$.validUser.username"));
         loginPage.enterPassword(loginData.getJsonData("$.validUser.password"));
         productsPage = loginPage.clickLoginButton();
+        productsPage.scrollToOnesie();
         String productTitle = productsPage.getProductTitle();
-        productDetailsPage=productsPage.clickOnBackpackProduct();
+       productDetailsPage=productsPage.clickOnOnesieProduct();
 
         Assert.assertEquals(productTitle, productDetailsPage.getProductTitle(), "Product title should match on product details page");
 
