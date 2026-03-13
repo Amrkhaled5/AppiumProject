@@ -1,15 +1,9 @@
 package listeners;
 
-import core.DriverManager;
 import logs.LogsManager;
-import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
 import org.testng.*;
-
-import java.io.File;
-import java.io.IOException;
+import utils.media.ScreenRecord;
+import utils.media.ScreenShots;
 
 public class TestNGListeners implements ITestListener, IInvokedMethodListener, IExecutionListener {
 
@@ -23,8 +17,16 @@ public class TestNGListeners implements ITestListener, IInvokedMethodListener, I
     }
 
     @Override
+    public void onTestStart(ITestResult result) {
+        // Start the video via utility class
+        ScreenRecord.startRecording();
+    }
+
+    @Override
     public void onTestSuccess(ITestResult result) {
         LogsManager.info("Test Successfully Passed: " + result.getName());
+        // Dump the video to save hard drive space
+        ScreenRecord.stopAndDiscardRecording();
     }
 
     @Override
@@ -32,33 +34,15 @@ public class TestNGListeners implements ITestListener, IInvokedMethodListener, I
         LogsManager.error("!!! Test Failed: " + result.getName());
         LogsManager.error("Failure Reason: " + result.getThrowable());
 
-        WebDriver driver = DriverManager.getDriver();
-
-        if (driver == null) {
-            LogsManager.warn("WebDriver instance not found — cannot capture screenshot.");
-            return;
-        }
-
-        File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-        File screenshotsDir = new File("screenshots");
-
-        if (!screenshotsDir.exists()) {
-            screenshotsDir.mkdirs();
-        }
-
-        File destFile = new File(screenshotsDir, result.getName() + ".png");
-
-        try {
-            FileUtils.copyFile(srcFile, destFile);
-            LogsManager.info("Screenshot saved to: " + destFile.getAbsolutePath());
-        } catch (IOException e) {
-            LogsManager.error("Failed to save screenshot: " + e.getMessage());
-        }
+        // Call your dedicated media utilities
+        ScreenShots.takeFullPageScreenShot(result.getName());
+        ScreenRecord.stopRecording(result.getName());
     }
 
     @Override
     public void onTestSkipped(ITestResult result) {
         LogsManager.warn("Test Skipped: " + result.getName());
+        ScreenRecord.stopAndDiscardRecording();
     }
 
     @Override

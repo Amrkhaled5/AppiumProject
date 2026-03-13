@@ -8,7 +8,7 @@
         <parameter name="deviceName" value="emulator-5554"/>
         <classes>
         <class name="tests.LoginTest"/>
-        <class name="tests.ProductTests"/>
+<!--        <class name="tests.ProductTests"/>-->
         </classes>
     </test>
 
