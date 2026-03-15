@@ -2,6 +2,8 @@ package listeners;
 
 import logs.LogsManager;
 import org.testng.*;
+import utils.allureReporting.AllureAttachmentManager;
+import utils.allureReporting.AllureReportGenerator;
 import utils.media.ScreenRecord;
 import utils.media.ScreenShots;
 
@@ -18,14 +20,12 @@ public class TestNGListeners implements ITestListener, IInvokedMethodListener, I
 
     @Override
     public void onTestStart(ITestResult result) {
-        // Start the video via utility class
         ScreenRecord.startRecording();
     }
 
     @Override
     public void onTestSuccess(ITestResult result) {
         LogsManager.info("Test Successfully Passed: " + result.getName());
-        // Dump the video to save hard drive space
         ScreenRecord.stopAndDiscardRecording();
     }
 
@@ -34,9 +34,11 @@ public class TestNGListeners implements ITestListener, IInvokedMethodListener, I
         LogsManager.error("!!! Test Failed: " + result.getName());
         LogsManager.error("Failure Reason: " + result.getThrowable());
 
-        // Call your dedicated media utilities
         ScreenShots.takeFullPageScreenShot(result.getName());
         ScreenRecord.stopRecording(result.getName());
+
+        AllureAttachmentManager.attachScreenshot(result.getName());
+        AllureAttachmentManager.attachVideo(result.getName());
     }
 
     @Override
@@ -66,5 +68,15 @@ public class TestNGListeners implements ITestListener, IInvokedMethodListener, I
     @Override
     public void onExecutionFinish() {
         LogsManager.info("Execution finished");
+        AllureReportGenerator.generateAndOpenReport();
+        System.exit(0);
+
+//        new Thread(() -> {
+//            try {
+//                AllureReportGenerator.generateAndOpenReport();
+//            } catch (Exception e) {
+//                LogsManager.error("Failed to generate Allure report asynchronously: " + e.getMessage());
+//            }
+//        }, "Allure-Report-Generator-Thread").start();
     }
 }

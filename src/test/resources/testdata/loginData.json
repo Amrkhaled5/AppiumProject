@@ -8,7 +8,7 @@
     "password":"invalidpassword"
   },
   "validUser":{
-    "username":"standard_user",
+    "username":"standard_userr",
     "password":"secret_sauce"
   }
 }

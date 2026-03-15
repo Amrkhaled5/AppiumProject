@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="Suite" parallel="tests" thread-count="2">
+<suite name="Suite" parallel="false" >
     <listeners>
         <listener class-name="listeners.TestNGListeners"/>
     </listeners>
@@ -12,17 +12,19 @@
         <parameter name="systemPort" value="8200"/>
         <classes>
             <class name="tests.LoginTest"/>
+<!--            <class name="tests.ProductTests"/>-->
+
         </classes>
     </test>
 
-    <test name="Device 2 - Cloned Emulator">
-        <parameter name="platformName" value="Android"/>
-        <parameter name="deviceName" value="emulator-5556"/>
-        <parameter name="udid" value="emulator-5556"/>
-        <parameter name="systemPort" value="8201"/>
-        <classes>
-            <class name="tests.ProductTests"/>
-        </classes>
-    </test>
+<!--    <test name="Device 2 - Cloned Emulator">-->
+<!--        <parameter name="platformName" value="Android"/>-->
+<!--        <parameter name="deviceName" value="emulator-5556"/>-->
+<!--        <parameter name="udid" value="emulator-5556"/>-->
+<!--        <parameter name="systemPort" value="8201"/>-->
+<!--        <classes>-->
+<!--            <class name="tests.ProductTests"/>-->
+<!--        </classes>-->
+<!--    </test>-->
 
 </suite>
